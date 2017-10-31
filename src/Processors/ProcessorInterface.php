@@ -16,6 +16,8 @@ interface ProcessorInterface
      * @param Config $config
      */
     public function process(Controller $controller, Model $model, Config $config);
+    
+    
     /**
      * @return int
      */

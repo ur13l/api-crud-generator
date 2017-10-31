@@ -16,11 +16,13 @@ class ModelManager {
         $class = $this->namespace. '\\' . $this->trimPHP($entry);
         $model = new $class();
         $parentClass = get_parent_class($model);
+        $attributes = $model->getFillable();
         $m = null;
         if(in_array($parentClass, $this->getCommonModelClasses())){
             $m = new Model();
             $m->setParentClassName($parentClass);
             $m->setClassName(get_class($model));
+            $m->setAttributes($model->getFillable());
         }
         return $m;
     }

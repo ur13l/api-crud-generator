@@ -34,4 +34,18 @@ class Model {
     public function getAttributes() {
         return $this->attributes;
     }
+
+    public function getShortName() {
+        $pieces = explode('\\', $this->getClassName());
+        return end($pieces);
+    }
+
+    public function printAttributes() {
+        $string = "[";
+        foreach($this->attributes as $key => $attr) {
+            $string .= $attr . ($key != (count($this->attributes) - 1) ? "," : "");
+        }
+        $string .= "]";
+        return $string;
+    }
 }

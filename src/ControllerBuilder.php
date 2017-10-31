@@ -2,6 +2,7 @@
 
 namespace Ur13l\ApiCrudGenerator;
 use Ur13l\ApiCrudGenerator\Model\Controller;
+use Ur13l\ApiCrudGenerator\Processors\ProcessorInterface;
 
 
 class ControllerBuilder {
@@ -9,7 +10,7 @@ class ControllerBuilder {
     protected $model;
     protected $processors;
 
-    public function __construct(array $processors) {
+    public function __construct($processors) {
         $this->processors = $processors;
     }
 
