@@ -9,7 +9,7 @@
             "email": "ur13l.infante@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {},
     "require-dev": {
         "krlove/code-generator": "^1.0"
