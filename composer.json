@@ -1,7 +1,6 @@
 {
     "name": "ur13l/api-crud-generator",
     "description": "Controller generator for Laravel based on the models available in your project.",
-    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -9,8 +8,9 @@
             "email": "ur13l.infante@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "laravel/framework": "^5.0"
+    },
     "require-dev": {
         "krlove/code-generator": "^1.0"
     },

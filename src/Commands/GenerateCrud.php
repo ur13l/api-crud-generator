@@ -19,7 +19,7 @@ class GenerateCrud extends Command {
      *
      * @var string
      */
-    protected $signature = 'crud:generate';
+    protected $name = 'crud:generate';
 
     /**
      * Variable storing app info.
