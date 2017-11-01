@@ -11,17 +11,21 @@ use Ur13l\ApiCrudGenerator\Config;
 
 
 /**
- * Interface ProcessorInterface
- * @package Krlove\EloquentModelGenerator\Processor
+ * Class MethodDestroyProcessor
+ * @package Ur13l\ApiCrudGenerator\Processors
  */
 class MethodDestroyProcessor implements ProcessorInterface
 {
     /**
-     * @param EloquentModel $model
+     * Implemented method from ProcessorInterface
+     *
+     * @param Controller $controller
+     * @param Model $model
      * @param Config $config
+     * @return void
      */
     public function process(Controller $controller, Model $model, Config $config){
-        $destroyMethod = new MethodModel($config->get('show'));
+        $destroyMethod = new MethodModel($config->get('destroy'));
         $destroyMethod->addArgument(new ArgumentModel('id'));
         $destroyMethod->setDocBlock(new DocBlockModel('Método para eliminar una instancia de ' . $model->getShortName() , 
            '@param Integer $id', '@return Response'));
@@ -37,6 +41,6 @@ class MethodDestroyProcessor implements ProcessorInterface
      * @return int
      */
     public function getPriority(){
-        return 7;
+        return 4;
     }
 }

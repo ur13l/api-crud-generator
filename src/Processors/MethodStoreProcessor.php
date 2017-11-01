@@ -11,14 +11,18 @@ use Ur13l\ApiCrudGenerator\Config;
 
 
 /**
- * Interface ProcessorInterface
- * @package Krlove\EloquentModelGenerator\Processor
+ * Class MethodStoreProcessor
+ * @package Ur13l\ApiCrudGenerator\Processors
  */
 class MethodStoreProcessor implements ProcessorInterface
 {
     /**
-     * @param EloquentModel $model
+     * Implemented method from ProcessorInterface
+     *
+     * @param Controller $controller
+     * @param Model $model
      * @param Config $config
+     * @return void
      */
     public function process(Controller $controller, Model $model, Config $config){
         $storeMethod = new MethodModel($config->get('store'));
@@ -40,6 +44,6 @@ class MethodStoreProcessor implements ProcessorInterface
      * @return int
      */
     public function getPriority(){
-        return 7;
+        return 6;
     }
 }

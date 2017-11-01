@@ -9,24 +9,26 @@ use Ur13l\ApiCrudGenerator\Config;
 
 
 /**
- * Interface ProcessorInterface
- * @package Krlove\EloquentModelGenerator\Processor
+ * Class NameControllerProcessor
+ * @package Ur13l\ApiCrudGenerator\Processors
  */
 class NameControllerProcessor implements ProcessorInterface
 {
     /**
-     * @param EloquentModel $model
+     * Implemented method from ProcessorInterface
+     *
+     * @param Controller $controller
+     * @param Model $model
      * @param Config $config
+     * @return void
      */
     public function process(Controller $controller, Model $model, Config $config){
-        $pieces = explode('\\', $model->getClassName());
-        $shortClassName = end($pieces);
-        $controller->setName(new ClassNameModel($shortClassName . "Controller", "Controller"));
+        $controller->setName(new ClassNameModel($model->getShortName() . "Controller", "Controller"));
     }
     /**
      * @return int
      */
     public function getPriority(){
-        return 10;
+        return 9;
     }
 }

@@ -1,8 +1,4 @@
 <?php
-/*
-Credits to krlove
-Class based on https://github.com/krlove/eloquent-model-generator/blob/master/src/Config.php
-*/
 namespace Ur13l\ApiCrudGenerator;
 /**
  * Class Config
@@ -14,6 +10,7 @@ class Config
      * @var array
      */
     protected $config;
+
     /**
      * Config constructor.
      * @param array $inputConfig
@@ -27,8 +24,9 @@ class Config
         }
         $this->config = $this->merge($inputConfig, $this->getBaseConfig());
     }
+
     /**
-     * @param string     $key
+     * @param string $key
      * @param mixed|null $default
      * @return mixed|null
      */
@@ -36,6 +34,7 @@ class Config
     {
         return $this->has($key) ? $this->config[$key] : $default;
     }
+
     /**
      * @param string $key
      * @return bool
@@ -44,6 +43,7 @@ class Config
     {
         return isset($this->config[$key]);
     }
+
     /**
      * @param array $high
      * @param array $low
@@ -59,6 +59,7 @@ class Config
         }
         return $low;
     }
+
     /**
      * @param array $array
      * @return array
@@ -72,6 +73,7 @@ class Config
         }
         return $resolved;
     }
+
     /**
      * @param string $key
      * @return mixed
@@ -80,11 +82,29 @@ class Config
     {
         return str_replace('-', '_', strtolower($key));
     }
+
     /**
      * @return array
      */
     protected function getBaseConfig()
     {
         return require __DIR__ . '/Resources/config.php';
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getStr($key) 
+    {
+        $lang = $this->get('lang');
+        $lArr = [];
+        switch($lang) {
+            case 'es':
+                $lArr = require __DIR__ .'/Resources/Lang/es/strings.php';
+            default:
+                $lArr = require __DIR__ . '/Resources/Lang/en/strings.php';
+        }
+        return $lArr[$key];
     }
 }

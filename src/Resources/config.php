@@ -9,5 +9,7 @@ return [
     'destroy' => 'destroy',
     'update' => 'update',
     'index' => 'index',
-    'show' => 'show'  
+    'show' => 'show',  
+    'lang' => 'es',
+    'routes_path' => 'routes/api.php' 
 ];

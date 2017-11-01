@@ -35,6 +35,12 @@ class GenerateCrud extends Command {
      */
     protected $generator;
 
+    /**
+     * Constructor method
+     *
+     * @param ControllerGenerator $generator
+     * @param AppConfig $appConfig
+     */
     public function __construct (ControllerGenerator $generator, AppConfig $appConfig) {
         parent::__construct();
 
@@ -60,13 +66,22 @@ class GenerateCrud extends Command {
     }
 
   
+    /**
+     * Fires the execution
+     *
+     * @return void
+     */
     public function handle() {
         $this->fire();
     }
 
+    /**
+     * Creates a config and a controller class responsible for generate the controllers.
+     *
+     * @return void
+     */
     public function fire() {
         $config = $this->createConfig();
         $controller = $this->generator->generateControllers($this->getArguments(), $config);
-        //$this->output->writeln(sprintf('Model %s generated', $model->getName()->getName()));
     }
 }

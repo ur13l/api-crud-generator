@@ -5,16 +5,16 @@ namespace Ur13l\ApiCrudGenerator\Processors;
 use Ur13l\ApiCrudGenerator\Model\Controller;
 use Ur13l\ApiCrudGenerator\Model\Model;
 use Ur13l\ApiCrudGenerator\Config;
+use Ur13l\ApiCrudGenerator\Exceptions\GeneratorException;
 use Krlove\CodeGenerator\Model\UseClassModel;
 
 
 /**
- * Class AddRouteProcessor
+ * Class CheckFileExistenceProcessor
  * @package Ur13l\ApiCrudGenerator\Processors
  */
-class AddRouteProcessor implements ProcessorInterface
+class CheckFileExistenceProcessor implements ProcessorInterface
 {
-    
     /**
      * Implemented method from ProcessorInterface
      *
@@ -24,18 +24,16 @@ class AddRouteProcessor implements ProcessorInterface
      * @return void
      */
     public function process(Controller $controller, Model $model, Config $config){
-        $content = file_get_contents($config->get('routes_path'));
-        $route = sprintf("\nRoute::resource('%s','%s');", 
-        strtolower($model->getShortName()), $model->getShortName());
-        $pos = strpos ( $content , $route);
-        if ($pos === FALSE ){ 
-            file_put_contents($config->get('routes_path'), $route, FILE_APPEND);
+        $filename =  $model->getShortName() . "Controller";
+        $exists = file_exists(app_path($config->get('output_path') . $filename . ".php"));
+        if ($exists !== FALSE ){ 
+            throw new GeneratorException(sprintf('Controller %s already exists', $filename));
         }
     }
     /**
      * @return int
      */
     public function getPriority(){
-        return 1;
+        return 10;
     }
 }

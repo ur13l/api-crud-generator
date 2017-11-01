@@ -9,14 +9,18 @@ use Krlove\CodeGenerator\Model\NamespaceModel;
 
 
 /**
- * Interface ProcessorInterface
- * @package Krlove\EloquentModelGenerator\Processor
+ * Class SetNamespaceProcessor
+ * @package Ur13l\ApiCrudGenerator\Processors
  */
 class SetNamespaceProcessor implements ProcessorInterface
 {
     /**
-     * @param EloquentModel $model
+     * Implemented method from ProcessorInterface
+     *
+     * @param Controller $controller
+     * @param Model $model
      * @param Config $config
+     * @return void
      */
     public function process(Controller $controller, Model $model, Config $config){
         $controller->setNamespace(new NamespaceModel($config->get('namespace')));
@@ -25,6 +29,6 @@ class SetNamespaceProcessor implements ProcessorInterface
      * @return int
      */
     public function getPriority(){
-        return 9;
+        return 8;
     }
 }

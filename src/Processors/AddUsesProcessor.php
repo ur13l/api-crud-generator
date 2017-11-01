@@ -9,14 +9,18 @@ use Krlove\CodeGenerator\Model\UseClassModel;
 
 
 /**
- * Interface ProcessorInterface
- * @package Krlove\EloquentModelGenerator\Processor
+ * Class AddUsesProcessor
+ * @package Ur13l\ApiCrudGenerator\Processors
  */
 class AddUsesProcessor implements ProcessorInterface
 {
     /**
-     * @param EloquentModel $model
+     * Implemented method from ProcessorInterface
+     *
+     * @param Controller $controller
+     * @param Model $model
      * @param Config $config
+     * @return void
      */
     public function process(Controller $controller, Model $model, Config $config){
         $controller->addUses(new UseClassModel("Illuminate\Http\Request"));
@@ -28,6 +32,6 @@ class AddUsesProcessor implements ProcessorInterface
      * @return int
      */
     public function getPriority(){
-        return 8;
+        return 7;
     }
 }

@@ -11,17 +11,21 @@ use Ur13l\ApiCrudGenerator\Config;
 
 
 /**
- * Interface ProcessorInterface
- * @package Krlove\EloquentModelGenerator\Processor
+ * Class MethodIndexProcessor
+ * @package Ur13l\ApiCrudGenerator\Processors
  */
 class MethodIndexProcessor implements ProcessorInterface
 {
     /**
-     * @param EloquentModel $model
+     * Implemented method from ProcessorInterface
+     *
+     * @param Controller $controller
+     * @param Model $model
      * @param Config $config
+     * @return void
      */
     public function process(Controller $controller, Model $model, Config $config){
-        $indexMethod = new MethodModel($config->get('show'));
+        $indexMethod = new MethodModel($config->get('index'));
         $indexMethod->addArgument(new ArgumentModel('page'));
         $indexMethod->setDocBlock(new DocBlockModel('Método para mostrar una lista de ' . $model->getShortName() , 
            '@param Integer $page', '@return Response'));
@@ -33,6 +37,6 @@ class MethodIndexProcessor implements ProcessorInterface
      * @return int
      */
     public function getPriority(){
-        return 7;
+        return 3;
     }
 }

@@ -4,16 +4,30 @@ namespace Ur13l\ApiCrudGenerator;
 use Ur13l\ApiCrudGenerator\Model\Controller;
 use Ur13l\ApiCrudGenerator\Processors\ProcessorInterface;
 
-
+/**
+ * Class ControllerBuilder
+ */
 class ControllerBuilder {
 
     protected $model;
     protected $processors;
 
+    /**
+     * Controller method for ControllerBuilder
+     *
+     * @param array $processors
+     */
     public function __construct($processors) {
         $this->processors = $processors;
     }
 
+    /**
+     * Create the controller from a model instance
+     *
+     * @param Model $model
+     * @param Config $config
+     * @return void
+     */
     public function createController($model, $config) {
         $this->model = $model;
 
@@ -23,10 +37,8 @@ class ControllerBuilder {
         foreach ($this->processors as $processor) {
             $processor->process($controller, $model, $config);
         }
-        
 
         return $controller;
-
     }
 
 

@@ -7,15 +7,35 @@ use Ur13l\ApiCrudGenerator\Helpers\FileManager;
 use Ur13l\ApiCrudGenerator\Helpers\ModelManager;
 use Ur13l\ApiCrudGenerator\Model\Model;
 
+/**
+ * Class ControllerGenerator
+ * @package Ur13l\ApiCrudGenerator
+ */
 class ControllerGenerator {
 
-    protected $generator;
+    /**
+     * Builder
+     *
+     * @var ControllerBuilder
+     */
     protected $builder;
 
+    /**
+     * ControllerGenerator Constructor
+     *
+     * @param ControllerBuilder $builder
+     */
     public function __construct(ControllerBuilder $builder) {
         $this->builder = $builder;
     }
 
+    /**
+     * Iterates over the Model files and creates the controller.
+     *
+     * @param $args
+     * @param Config $config
+     * @return void
+     */
     public function generateControllers($args, $config) {
         $fileManager = new FileManager($config);
         $files = $fileManager->getFiles();
@@ -30,7 +50,6 @@ class ControllerGenerator {
                 file_put_contents($outputPath, $content);
             }
         }
-        //$controller = $this->builder->createController($config);
     }
 
     /**
@@ -46,11 +65,11 @@ class ControllerGenerator {
         }
         if (!is_dir($path)) {
             if (!mkdir($path, 0777, true)) {
-                //throw new GeneratorException(sprintf('Could not create directory %s', $path));
+                throw new GeneratorException(sprintf('Could not create directory %s', $path));
             }
         }
         if (!is_writeable($path)) {
-            //throw new GeneratorException(sprintf('%s is not writeable', $path));
+            throw new GeneratorException(sprintf('%s is not writeable', $path));
         }
         $pieces = explode('\\', $model->getClassName());
         $shortClassName = end($pieces);
