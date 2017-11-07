@@ -28,12 +28,15 @@ class MethodDestroyProcessor implements ProcessorInterface
         $destroyMethod = new MethodModel($config->get('destroy'));
         $destroyMethod->addArgument(new ArgumentModel('id'));
         $destroyMethod->setDocBlock(new DocBlockModel('Método para eliminar una instancia de ' . $model->getShortName() , 
-           '@param Integer $id', '@return Response'));
+           '@param Integer $id',
+           sprintf('route: /api/%s/destroy', strtolower($model->getShortName())),
+           'method: DELETE',
+           '@return Response'));
         $destroyMethod->setBody('$data = '. $model->getShortName() . '::find($id);
         if(!$data) {
             return $this->error404("Objeto no encontrado");
         }
-        $data->destroy();
+        $data->delete();
         return $this->success($data);');
         $controller->addMethod($destroyMethod);
     }

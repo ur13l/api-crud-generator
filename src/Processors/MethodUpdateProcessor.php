@@ -28,7 +28,11 @@ class MethodUpdateProcessor implements ProcessorInterface
         $updateMethod = new MethodModel($config->get('update'));
         $updateMethod->addArgument(new ArgumentModel('request', 'Request'));
         $updateMethod->setDocBlock(new DocBlockModel('Método para la actualización de una instancia de ' . $model->getShortName() , 
-            'params: ' . $model->printAttributes(), '@param Request $request', '@return Response'));
+            sprintf('params: %s ', $model->printAttributes()), 
+            sprintf('route: /api/%s/update', strtolower($model->getShortName())),
+            'method: PUT',
+            '@param Request $request', 
+            '@return Response'));
         $updateMethod->setBody('
         $data = ' . $model->getShortName() . '::find($request->id);
         if(!$data) {

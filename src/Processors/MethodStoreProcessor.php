@@ -28,7 +28,11 @@ class MethodStoreProcessor implements ProcessorInterface
         $storeMethod = new MethodModel($config->get('store'));
         $storeMethod->addArgument(new ArgumentModel('request', 'Request'));
         $storeMethod->setDocBlock(new DocBlockModel('Método para la creación de una instancia de ' . $model->getShortName() , 
-            'params: ' . $model->printAttributes(), '@param Request $request', '@return Response'));
+            sprintf('params: %s ', $model->printAttributes()), 
+            sprintf('route: /api/%s/store', strtolower($model->getShortName())),
+            'method: POST',
+            '@param Request $request', 
+            '@return Response'));
         $storeMethod->setBody('//Agregar reglas de validación.
         $rules = [];
 

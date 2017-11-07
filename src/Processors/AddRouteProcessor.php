@@ -25,8 +25,14 @@ class AddRouteProcessor implements ProcessorInterface
      */
     public function process(Controller $controller, Model $model, Config $config){
         $content = file_get_contents($config->get('routes_path'));
-        $route = sprintf("\nRoute::resource('%s','%s');", 
-        strtolower($model->getShortName()), $model->getShortName());
+        $route = sprintf("\nRoute::group(['prefix' => '%s'], function() {
+            Route::post('store', '%s@store');
+            Route::put('update', '%s@update');
+            Route::delete('destroy/{id}', '%s@destroy');
+            Route::get('/', '%s@index');
+            Route::get('/{id}', '%s@show');
+        });", 
+        strtolower($model->getShortName()), $model->getShortName() . 'Controller');
         $pos = strpos ( $content , $route);
         if ($pos === FALSE ){ 
             file_put_contents($config->get('routes_path'), $route, FILE_APPEND);
