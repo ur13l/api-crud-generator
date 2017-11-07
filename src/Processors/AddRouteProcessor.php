@@ -32,7 +32,7 @@ class AddRouteProcessor implements ProcessorInterface
             Route::get('/', '%s@index');
             Route::get('/{id}', '%s@show');
         });", 
-        strtolower($model->getShortName()), $model->getShortName() . 'Controller');
+        strtolower($model->getShortName()), $model->getShortName() . 'Controller', $model->getShortName() . 'Controller', $model->getShortName() . 'Controller', $model->getShortName() . 'Controller', $model->getShortName() . 'Controller');
         $pos = strpos ( $content , $route);
         if ($pos === FALSE ){ 
             file_put_contents($config->get('routes_path'), $route, FILE_APPEND);
