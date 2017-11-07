@@ -27,7 +27,8 @@ class MethodStoreProcessor implements ProcessorInterface
     public function process(Controller $controller, Model $model, Config $config){
         $storeMethod = new MethodModel($config->get('store'));
         $storeMethod->addArgument(new ArgumentModel('request', 'Request'));
-        $storeMethod->setDocBlock(new DocBlockModel('Método para la creación de una instancia de ' . $model->getShortName() , 
+        $storeMethod->setDocBlock(new DocBlockModel(
+            sprintf('%s: Store. \nMétodo para la creación de una instancia de %s', $model->getShortName(), $model->getShortName()) , 
             sprintf('params: %s ', $model->printAttributes()), 
             sprintf('route: /api/%s/store', strtolower($model->getShortName())),
             'method: POST',
@@ -38,7 +39,7 @@ class MethodStoreProcessor implements ProcessorInterface
 
         $errors = $this->validate($request->all(), $rules);
         if(count($errors) > 0) {
-            return $this->error500($errors);
+            return $this->error($errors);
         }
         $data = '. $model->getShortName() . '::create($request->all());
         return $this->success($data);');

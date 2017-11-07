@@ -27,16 +27,15 @@ class MethodUpdateProcessor implements ProcessorInterface
     public function process(Controller $controller, Model $model, Config $config){
         $updateMethod = new MethodModel($config->get('update'));
         $updateMethod->addArgument(new ArgumentModel('request', 'Request'));
-        $updateMethod->setDocBlock(new DocBlockModel('Método para la actualización de una instancia de ' . $model->getShortName() , 
+        $updateMethod->setDocBlock(new DocBlockModel(
+            sprintf('%s: Update. \nMétodo para la actualización de una instancia de %s', $model->getShortName(), $model->getShortName()) , 
             sprintf('params: %s ', $model->printAttributes()), 
-            sprintf('route: /api/%s/update', strtolower($model->getShortName())),
-            'method: PUT',
             '@param Request $request', 
             '@return Response'));
         $updateMethod->setBody('
         $data = ' . $model->getShortName() . '::find($request->id);
         if(!$data) {
-            return $this->error404("Objeto no encontrado");
+            return $this->error("Objeto no encontrado");
         }
         $data->update($request->all());
         return $this->success($data);');

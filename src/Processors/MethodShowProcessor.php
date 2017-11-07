@@ -27,7 +27,8 @@ class MethodShowProcessor implements ProcessorInterface
     public function process(Controller $controller, Model $model, Config $config){
         $showMethod = new MethodModel($config->get('show'));
         $showMethod->addArgument(new ArgumentModel('id'));
-        $showMethod->setDocBlock(new DocBlockModel('Método para mostrar una instancia de ' . $model->getShortName() , 
+        $showMethod->setDocBlock(new DocBlockModel(
+            sprintf('%s: Show. \nMétodo para mostrar una instancia de %s', $model->getShortName(), $model->getShortName()), 
             'params: $id',
             sprintf('route: /api/%s/{id}', strtolower($model->getShortName())),
             'method: GET',
@@ -35,7 +36,7 @@ class MethodShowProcessor implements ProcessorInterface
             '@return Response'));
         $showMethod->setBody('$data = '. $model->getShortName() . '::find($id);
         if(!$data) {
-            return $this->error404("Objeto no encontrado");
+            return $this->error("Objeto no encontrado");
         }
         return $this->success($data);');
         $controller->addMethod($showMethod);

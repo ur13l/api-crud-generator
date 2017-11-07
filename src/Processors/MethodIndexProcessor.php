@@ -27,7 +27,8 @@ class MethodIndexProcessor implements ProcessorInterface
     public function process(Controller $controller, Model $model, Config $config){
         $indexMethod = new MethodModel($config->get('index'));
         $indexMethod->addArgument(new ArgumentModel('request', 'Request'));
-        $indexMethod->setDocBlock(new DocBlockModel('Método para mostrar una lista de ' . $model->getShortName() , 
+        $indexMethod->setDocBlock(new DocBlockModel(
+            sprintf('%s: Index. \nMétodo para mostrar una lista de %s', $model->getShortName(), $model->getShortName()), 
            'params: [page]',
             sprintf('route: /api/%s/', strtolower($model->getShortName())),
            'method: GET',
