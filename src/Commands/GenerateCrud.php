@@ -83,5 +83,6 @@ class GenerateCrud extends Command {
     public function fire() {
         $config = $this->createConfig();
         $controller = $this->generator->generateControllers($this->getArguments(), $config);
+        $controller = $this->generator->generateResources($this->getArguments(), $config);
     }
 }

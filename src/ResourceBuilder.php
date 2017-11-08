@@ -1,25 +1,25 @@
 <?php
 
 namespace Ur13l\ApiCrudGenerator;
-use Ur13l\ApiCrudGenerator\Model\Controller;
+use Ur13l\ApiCrudGenerator\Model\Resource;
 use Ur13l\ApiCrudGenerator\Processors\ProcessorInterface;
 
 /**
- * Class ControllerBuilder
+ * Class ResourceBuilder
  */
-class ControllerBuilder{
+class ResourceBuilder {
 
     protected $model;
     protected $processors;
     
-        /**
-         * Controller method for ControllerBuilder
-         *
-         * @param array $processors
-         */
-        public function __construct($processors) {
-            $this->processors = $processors;
-        }
+    /**
+     * Controller method for ControllerBuilder
+     *
+     * @param array $processors
+     */
+    public function __construct($processors) {
+        $this->processors = $processors;
+    }
 
     /**
      * Create the controller from a model instance
@@ -28,17 +28,15 @@ class ControllerBuilder{
      * @param Config $config
      * @return void
      */
-    public function createController($model, $config) {
+    public function createResource($model, $config) {
         $this->model = $model;
-
-        $controller = new Controller();
-
+        $resource = new Resource();
         $this->prepareProcessors();
         foreach ($this->processors as $processor) {
-            $processor->process($controller, $model, $config);
+            $processor->process($resource, $model, $config);
         }
 
-        return $controller;
+        return $resource;
     }
 
      /**
@@ -53,5 +51,8 @@ class ControllerBuilder{
             return $one->getPriority() < $two->getPriority() ? 1 : -1;
         });
     }
+
+
+   
     
 }

@@ -15,19 +15,46 @@ use Ur13l\ApiCrudGenerator\Model\Resource;
 class ControllerGenerator {
 
     /**
-     * Builder
+     * Controller Builder
      *
      * @var ControllerBuilder
      */
-    protected $builder;
+    protected $controllerBuilder;
+
+
+    /**
+     * Resource Builder 
+     * 
+     * @var ResourceBuilder
+     */
+    protected $resourceBuilder;
+
+
 
     /**
      * ControllerGenerator Constructor
      *
      * @param ControllerBuilder $builder
      */
-    public function __construct(ControllerBuilder $builder) {
-        $this->builder = $builder;
+    public function __construct(ControllerBuilder $controllerBuilder, ResourceBuilder $resourceBuilder) {
+        $this->resourceBuilder = $resourceBuilder;
+        $this->controllerBuilder = $controllerBuilder;
+    }
+
+
+    public function generateResources($args, $config) {
+        $fileManager = new FileManager($config);
+        $files = $fileManager->getFiles();
+        $modelManager = new ModelManager($config);
+        foreach($files as $file) {
+            $model = $modelManager->retrieveModel($file);
+            if (isset($model)) {
+                $resource = $this->resourceBuilder->createResource($model, $config);
+                $content1 = $resource->render();
+                $outputPath1 = $this->resolvePath($config, 'resources_path', $model) . 'Resource.php';
+                file_put_contents($outputPath1, $content1);
+            }
+        }
     }
 
     /**
@@ -44,15 +71,9 @@ class ControllerGenerator {
         foreach($files as $file) {
             $model = $modelManager->retrieveModel($file);
             if (isset($model)) {
-                $resource = new Resource();
-                $resource = $resource->init($model, $config);
-                $content = $resource->render();
-                $outputPath = $this->resolveOutputPath($config, 'resources_path', $model);
-                file_put_contents($outputPath, $content);
-
-                $controller = $this->builder->createController($model, $config);
+                $controller = $this->controllerBuilder->createController($model, $config);
                 $content = $controller->render();
-                $outputPath = $this->resolveOutputPath($config, 'output_path', $model);
+                $outputPath = $this->resolvePath($config, 'output_path', $model)  . 'Controller.php';
                 file_put_contents($outputPath, $content);
             }
         }
@@ -77,7 +98,7 @@ class ControllerGenerator {
         if (!is_writeable($path)) {
             throw new GeneratorException(sprintf('%s is not writeable', $path));
         }
-        return $path . '/' . $model->getShortName() . 'Controller.php';
+        return $path . '/' . $model->getShortName();
     }
 
 }

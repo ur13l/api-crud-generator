@@ -2,7 +2,7 @@
 
 namespace Ur13l\ApiCrudGenerator\Processors;
 
-use Ur13l\ApiCrudGenerator\Model\Controller;
+use Krlove\CodeGenerator\Model\ClassModel;
 use Ur13l\ApiCrudGenerator\Model\Model;
 use Krlove\CodeGenerator\Model\ClassNameModel;
 use Ur13l\ApiCrudGenerator\Config;
@@ -17,13 +17,13 @@ class NameControllerProcessor implements ProcessorInterface
     /**
      * Implemented method from ProcessorInterface
      *
-     * @param Controller $controller
+     * @param ClassModel $class
      * @param Model $model
      * @param Config $config
      * @return void
      */
-    public function process(Controller $controller, Model $model, Config $config){
-        $controller->setName(new ClassNameModel($model->getShortName() . "Controller", "Controller"));
+    public function process(ClassModel $class, Model $model, Config $config){
+        $class->setName(new ClassNameModel($model->getShortName() . "Controller", "Controller"));
     }
     /**
      * @return int

@@ -93,7 +93,10 @@ class Model {
         $string = "[";
         foreach($this->attributes as $key => $attr) {
             if($attr != 'created_at' && $attr != 'updated_at' && $attr != 'deleted_at' ) {
-                $string .= $attr . ($key != (count($this->attributes) - 1) ? "," : "");
+                if($string !== "[") {
+                    $string .= ",";
+                }
+                $string .= $attr;
             }
         }
         $string .= "]";

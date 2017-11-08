@@ -2,7 +2,7 @@
 
 namespace Ur13l\ApiCrudGenerator\Processors;
 
-use Ur13l\ApiCrudGenerator\Model\Controller;
+use Krlove\CodeGenerator\Model\ClassModel;
 use Ur13l\ApiCrudGenerator\Model\Model;
 use Krlove\CodeGenerator\Model\MethodModel;
 use Krlove\CodeGenerator\Model\DocBlockModel;
@@ -19,27 +19,25 @@ class MethodShowProcessor implements ProcessorInterface
     /**
      * Implemented method from ProcessorInterface
      *
-     * @param Controller $controller
+     * @param ClassModel $class
      * @param Model $model
      * @param Config $config
      * @return void
      */
-    public function process(Controller $controller, Model $model, Config $config){
+    public function process(ClassModel $class, Model $model, Config $config){
         $showMethod = new MethodModel($config->get('show'));
         $showMethod->addArgument(new ArgumentModel('id'));
-        $showMethod->setDocBlock(new DocBlockModel(
-            sprintf('%s: Show. \nMétodo para mostrar una instancia de %s', $model->getShortName(), $model->getShortName()), 
-            'params: $id',
-            sprintf('route: /api/%s/{id}', strtolower($model->getShortName())),
-            'method: GET',
+        $showMethod->setDocBlock(new DocBlockModel(sprintf('%s: Show',$model->getShortName()),
+            sprintf('Método para mostrar una instancia de %s', $model->getShortName()), 
+            'params: id',
             '@param Integer $id', 
             '@return Response'));
         $showMethod->setBody('$data = '. $model->getShortName() . '::find($id);
         if(!$data) {
             return $this->error("Objeto no encontrado");
         }
-        return $this->success($data);');
-        $controller->addMethod($showMethod);
+        return new '. $model->getShortName() .'Resource($data);');
+        $class->addMethod($showMethod);
     }
     /**
      * @return int
