@@ -6,6 +6,7 @@ use Ur13l\ApiCrudGenerator\ControllerBuilder;
 use Ur13l\ApiCrudGenerator\Helpers\FileManager;
 use Ur13l\ApiCrudGenerator\Helpers\ModelManager;
 use Ur13l\ApiCrudGenerator\Model\Model;
+use Ur13l\ApiCrudGenerator\Model\Resource;
 
 /**
  * Class ControllerGenerator
@@ -43,10 +44,15 @@ class ControllerGenerator {
         foreach($files as $file) {
             $model = $modelManager->retrieveModel($file);
             if (isset($model)) {
+                $resource = new Resource();
+                $resource = $resource->init($model, $config);
+                $content = $resource->render();
+                $outputPath = $this->resolveOutputPath($config, 'resources_path', $model);
+                file_put_contents($outputPath, $content);
+
                 $controller = $this->builder->createController($model, $config);
                 $content = $controller->render();
-                $outputPath = $this->resolveOutputPath($config, $model);
-                print($outputPath);
+                $outputPath = $this->resolveOutputPath($config, 'output_path', $model);
                 file_put_contents($outputPath, $content);
             }
         }
@@ -57,9 +63,9 @@ class ControllerGenerator {
      * @return string
      * @throws GeneratorException
      */
-    protected function resolveOutputPath(Config $config, Model $model)
+    protected function resolvePath(Config $config, $path, Model $model)
     {
-        $path = $config->get('output_path');
+        $path = $config->get($path);
         if ($path === null || stripos($path, '/') !== 0) {
             $path = app_path($path);
         }
@@ -71,9 +77,7 @@ class ControllerGenerator {
         if (!is_writeable($path)) {
             throw new GeneratorException(sprintf('%s is not writeable', $path));
         }
-        $pieces = explode('\\', $model->getClassName());
-        $shortClassName = end($pieces);
-        return $path . '/' . $shortClassName . 'Controller.php';
+        return $path . '/' . $model->getShortName() . 'Controller.php';
     }
 
 }

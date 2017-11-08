@@ -23,9 +23,6 @@ class AddUsesProcessor implements ProcessorInterface
      * @return void
      */
     public function process(Controller $controller, Model $model, Config $config){
-        $controller->addUses(new UseClassModel("Illuminate\Http\Request"));
-        $controller->addUses(new UseClassModel("Auth"));
-        $controller->addUses(new UseClassModel("Validator"));
         $controller->addUses(new UseClassModel($model->getClassName()));
     }
     /**
