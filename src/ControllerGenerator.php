@@ -45,7 +45,7 @@ class ControllerGenerator {
             $model = $modelManager->retrieveModel($file);
             if (isset($model)) {
                 $resource = new Resource();
-                $resource = $resource->init($model, $config);
+                $resource
                 $content = $resource->render();
                 $outputPath = $this->resolveOutputPath($config, 'resources_path', $model);
                 file_put_contents($outputPath, $content);
