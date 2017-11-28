@@ -2,7 +2,7 @@
 
 namespace Ur13l\ApiCrudGenerator\Processors;
 
-use Ur13l\ApiCrudGenerator\Model\Controller;
+use Krlove\CodeGenerator\Model\ClassModel;
 use Ur13l\ApiCrudGenerator\Model\Model;
 use Ur13l\ApiCrudGenerator\Config;
 use Krlove\CodeGenerator\Model\UseClassModel;
@@ -17,13 +17,17 @@ class AddUsesProcessor implements ProcessorInterface
     /**
      * Implemented method from ProcessorInterface
      *
-     * @param Controller $controller
+     * @param ClassName $class
      * @param Model $model
      * @param Config $config
      * @return void
      */
-    public function process(Controller $controller, Model $model, Config $config){
-        $controller->addUses(new UseClassModel($model->getClassName()));
+    public function process(ClassModel $class, Model $model, Config $config){
+        $class->addUses(new UseClassModel("Illuminate\Http\Request"));
+        $class->addUses(new UseClassModel("Auth"));
+        $class->addUses(new UseClassModel("Validator"));
+        $class->addUses(new UseClassModel($model->getClassName()));
+        $class->addUses(new UseClassModel($config->get('resources_namespace') . "\\" . $model->getShortName() . "Resource"));
     }
     /**
      * @return int

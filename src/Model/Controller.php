@@ -10,10 +10,4 @@ use Krlove\CodeGenerator\Model\ClassModel;
  */
 class Controller extends ClassModel {
 
-    public function __construct(){
-        $this->addUses(new UseClassModel("Illuminate\Http\Request"));
-        $this->addUses(new UseClassModel("Auth"));
-        $this->addUses(new UseClassModel("Validator"));
-        
-    }
 }

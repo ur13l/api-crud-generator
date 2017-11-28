@@ -2,7 +2,7 @@
 
 namespace Ur13l\ApiCrudGenerator\Processors;
 
-use Ur13l\ApiCrudGenerator\Model\Controller;
+use Krlove\CodeGenerator\Model\ClassModel;
 use Ur13l\ApiCrudGenerator\Model\Model;
 use Krlove\CodeGenerator\Model\MethodModel;
 use Krlove\CodeGenerator\Model\DocBlockModel;
@@ -19,19 +19,17 @@ class MethodStoreProcessor implements ProcessorInterface
     /**
      * Implemented method from ProcessorInterface
      *
-     * @param Controller $controller
+     * @param ClassModel $class
      * @param Model $model
      * @param Config $config
      * @return void
      */
-    public function process(Controller $controller, Model $model, Config $config){
+    public function process(ClassModel $class, Model $model, Config $config){
         $storeMethod = new MethodModel($config->get('store'));
         $storeMethod->addArgument(new ArgumentModel('request', 'Request'));
-        $storeMethod->setDocBlock(new DocBlockModel(
-            sprintf('%s: Store. \nMétodo para la creación de una instancia de %s', $model->getShortName(), $model->getShortName()) , 
+        $storeMethod->setDocBlock(new DocBlockModel(sprintf('%s: Store', $model->getShortName()) ,
+            sprintf('Método para la creación de una instancia de %s', $model->getShortName()) , 
             sprintf('params: %s ', $model->printAttributes()), 
-            sprintf('route: /api/%s/store', strtolower($model->getShortName())),
-            'method: POST',
             '@param Request $request', 
             '@return Response'));
         $storeMethod->setBody('//Agregar reglas de validación.
@@ -42,8 +40,8 @@ class MethodStoreProcessor implements ProcessorInterface
             return $this->error($errors);
         }
         $data = '. $model->getShortName() . '::create($request->all());
-        return $this->success($data);');
-        $controller->addMethod($storeMethod);
+        return new '. $model->getShortName() .'Resource($data);');
+        $class->addMethod($storeMethod);
     }
     /**
      * @return int
