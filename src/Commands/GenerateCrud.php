@@ -55,6 +55,9 @@ class GenerateCrud extends Command {
     protected function createConfig()
     {
         $config = [];
+        foreach ($this->getArguments() as $argument) {
+            $config[$argument[0]] = $this->argument($argument[0]);
+        }
         foreach ($this->getOptions() as $option) {
             $value = $this->option($option[0]);
             if ($option[2] == InputOption::VALUE_NONE && $value === false) {
@@ -72,6 +75,7 @@ class GenerateCrud extends Command {
      * @return void
      */
     public function handle() {
+
         $this->fire();
     }
 
@@ -84,5 +88,16 @@ class GenerateCrud extends Command {
         $config = $this->createConfig();
         $controller = $this->generator->generateControllers($this->getArguments(), $config);
         $controller = $this->generator->generateResources($this->getArguments(), $config);
+    }
+
+
+    /**
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['model-name', InputArgument::OPTIONAL, 'Model class name'],
+        ];
     }
 }

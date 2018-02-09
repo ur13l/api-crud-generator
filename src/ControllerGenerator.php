@@ -49,10 +49,12 @@ class ControllerGenerator {
         foreach($files as $file) {
             $model = $modelManager->retrieveModel($file);
             if (isset($model)) {
-                $resource = $this->resourceBuilder->createResource($model, $config);
-                $content1 = $resource->render();
-                $outputPath1 = $this->resolvePath($config, 'resources_path', $model) . 'Resource.php';
-                file_put_contents($outputPath1, $content1);
+                if($config->get('model_name') == null || $config->get('model_name') == $model->getShortName()) {
+                    $resource = $this->resourceBuilder->createResource($model, $config);
+                    $content1 = $resource->render();
+                    $outputPath1 = $this->resolvePath($config, 'resources_path', $model) . 'Resource.php';
+                    file_put_contents($outputPath1, $content1);
+                }
             }
         }
     }
@@ -71,10 +73,12 @@ class ControllerGenerator {
         foreach($files as $file) {
             $model = $modelManager->retrieveModel($file);
             if (isset($model)) {
-                $controller = $this->controllerBuilder->createController($model, $config);
-                $content = $controller->render();
-                $outputPath = $this->resolvePath($config, 'output_path', $model)  . 'Controller.php';
-                file_put_contents($outputPath, $content);
+                if($config->get('model_name') == null || $config->get('model_name') == $model->getShortName()) {
+                    $controller = $this->controllerBuilder->createController($model, $config);
+                    $content = $controller->render();
+                    $outputPath = $this->resolvePath($config, 'output_path', $model)  . 'Controller.php';
+                    file_put_contents($outputPath, $content);
+                }
             }
         }
     }
