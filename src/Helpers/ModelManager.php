@@ -66,7 +66,8 @@ class ModelManager {
     public function getCommonModelClasses() {
         return [
             'Illuminate\Foundation\Auth\User',
-            'Illuminate\Database\Eloquent\Model'
+            'Illuminate\Database\Eloquent\Model',
+            'Jenssegers\Mongodb\Eloquent\Model'
         ];
     }
 }
