@@ -34,7 +34,7 @@ class MethodShowProcessor implements ProcessorInterface
             '@return Response'));
         $showMethod->setBody('$data = '. $model->getShortName() . '::find($id);
         if(!$data) {
-            return $this->error("Objeto no encontrado");
+            return $this->error(["Objeto no encontrado"]);
         }
         return new '. $model->getShortName() .'Resource($data);');
         $class->addMethod($showMethod);

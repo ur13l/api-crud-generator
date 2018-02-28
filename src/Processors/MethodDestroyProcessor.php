@@ -34,7 +34,7 @@ class MethodDestroyProcessor implements ProcessorInterface
             '@return Response'));
         $destroyMethod->setBody('$data = '. $model->getShortName() . '::find($id);
         if(!$data) {
-            return $this->error("Objeto no encontrado");
+            return $this->error(["Objeto no encontrado"]);
         }
         $data->delete();
         return new '. $model->getShortName() .'Resource($data);');

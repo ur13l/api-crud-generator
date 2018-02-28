@@ -35,7 +35,7 @@ class MethodUpdateProcessor implements ProcessorInterface
         $updateMethod->setBody('
         $data = ' . $model->getShortName() . '::find($request->id);
         if(!$data) {
-            return $this->error("Objeto no encontrado");
+            return $this->error(["Objeto no encontrado"]);
         }
         $data->update($request->all());
         return new '. $model->getShortName() .'Resource($data);');
